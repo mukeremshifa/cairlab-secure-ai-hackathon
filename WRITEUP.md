@@ -58,4 +58,4 @@ The robustness deltas above are all at the **standard 0.5 cutoff** — apples-to
 
 ## Reproducibility
 
-Python-only, CPU, < 10 min. `02_Intermediate_Advanced_Day2.ipynb` downloads NSL-KDD, rebuilds the non-IID split (seed 42), runs every comparison over 3 seeds, regenerates all figures, and writes `model_scripted.pt` + `submission.json`. Verify the primary number by loading `model_scripted.pt` and running `evaluate()` on KDDTest+.
+Python-only, CPU, < 10 min. `securing_federated_ids.ipynb` downloads NSL-KDD, rebuilds the non-IID split (seed 42), runs every comparison over 3 seeds, regenerates all figures, and writes `model_scripted.pt` + `submission.json`. Verify the primary number by loading `model_scripted.pt` and running `evaluate()` on KDDTest+.
