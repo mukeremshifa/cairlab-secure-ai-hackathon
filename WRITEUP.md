@@ -78,3 +78,9 @@ This is a genuine operating-point choice, but it *does* use the test distributio
 ## Reproducibility
 
 Python-only, CPU, under 10 minutes. `securing_federated_ids.ipynb` downloads NSL-KDD, rebuilds the non-IID split (seed 42), runs every comparison over 3 seeds, regenerates all figures, and writes `model_scripted.pt` + `submission.json`. Verify the primary number by loading `model_scripted.pt` and running `evaluate()` on KDDTest+.
+
+## Links
+
+- **Code, model and reproduction steps:** [GitHub repository](https://github.com/mukeremshifa/cairlab-secure-ai-hackathon)
+- **Video walkthrough (2:44):** [YouTube](https://youtu.be/dweZufyFwWA)
+- **Notebook:** attached to this Writeup

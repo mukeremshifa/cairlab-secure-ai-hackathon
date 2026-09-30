@@ -2,6 +2,8 @@
 
 **CAIRLab Secure-AI Hackathon, Days 2–3 · Team Abugida** · Tracks: 🔴 Advanced (primary) + 🟡 Intermediate
 
+▶ **[Video walkthrough (2:44)](https://youtu.be/dweZufyFwWA)** · [Writeup](WRITEUP.md) · [Notebook](securing_federated_ids.ipynb)
+
 ![Cover](media/cover.png)
 
 Five simulated banks train one shared NSL-KDD intrusion detector with federated learning, without pooling their data. We harden naive FedAvg against two failure modes: a **malicious bank** that poisons its updates (Advanced track, our primary submission), and **non-IID** client data (Intermediate track).
