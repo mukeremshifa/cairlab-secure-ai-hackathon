@@ -20,9 +20,17 @@
     },
     "intermediate_supporting": {
       "scenario": "non-IID (Dirichlet alpha=0.3 by attack family)",
+      "method": "SCAFFOLD + class-balanced local loss",
       "naive_fedavg_f1": 0.7285,
-      "balanced_fedprox_f1": 0.7675,
-      "aggregation_delta": 0.039
+      "method_f1": 0.7969,
+      "aggregation_delta": 0.0684
+    },
+    "multi_attacker": {
+      "scenario": "2 of 5 banks compromised (clients 2 & 4), x20; beyond Krum's formal n=5 tolerance",
+      "naive_fedavg_f1": 0.2558,
+      "coordinate_median_f1": 0.8127,
+      "multikrum_f2_f1": 0.7937,
+      "multikrum_f2_detection_recall": 1.0
     },
     "adaptive_robustness": {
       "attack": "label-flip capped to median honest-update norm (evades norm-based filters)",

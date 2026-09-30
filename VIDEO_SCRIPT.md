@@ -14,9 +14,9 @@ Target: ≤ 3:00. Record screen with `media/` figures + the notebook. Times are 
 
 **[0:25–1:05] The non-IID fix (Intermediate)**
 > "Our five banks are extremely skewed — attack-rates from 4% to 86%. Plain FedAvg drops to
-> 0.73 F1. The key insight: the skew is in the *labels*, so we rebalance each bank's loss and
-> add a FedProx proximal term to stop drift. That recovers to 0.77 — closing almost the whole
-> non-IID gap."
+> 0.73 F1. The banks differ in two ways, so we fix both: SCAFFOLD control variates cancel the
+> drift between them, and a class-balanced loss neutralises the label skew. That reaches 0.80 —
+> actually beating the IID ceiling."
 
 *(Show intermediate_f1_rounds.png.)*
 
