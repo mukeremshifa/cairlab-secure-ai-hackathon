@@ -2,20 +2,23 @@
 
 Federated learning across 5 simulated banks on NSL-KDD, hardened against two failure modes:
 **non-IID data skew** (Intermediate track) and a **poisoning attack by a malicious bank**
-(Advanced track — our primary submission).
+(Advanced track — our primary submission). Team: **Abugida**.
 
 ## Headline results (F1 on KDDTest+, mean over 3 seeds)
 
 | Track | Setting | Naive FedAvg | Our method | Δ F1 |
 |---|---|---|---|---|
-| 🔴 **Advanced (primary)** | 1 poisoned bank (label-flip + update ×30), non-IID | **0.461** | **Multi-Krum 0.768** | **+0.308** |
+| 🔴 **Advanced (primary)** | largest bank (client 2, ~43% of data) poisoned: label-flip + update ×20, non-IID | **0.211** | **Multi-Krum 0.780** | **+0.569** |
 | 🟡 Intermediate | non-IID (Dirichlet α=0.3) | 0.729 | **Balanced-FedProx 0.768** | **+0.039** |
 
 - Malicious-bank **detection: precision = recall = 1.0**.
-- Multi-Krum is **immune to attack magnitude** (flat F1 across ×10–×100) and **robust to an adaptive attacker** that evades norm-based filters.
-- Final exported model (calibrated threshold baked in): **F1 = 0.895** on KDDTest+ at the 0.5 cutoff.
+- Multi-Krum is **immune to attack magnitude** (flat ≈0.78 across ×10–×100 while naive collapses).
+- **Attacker's dilemma:** an adaptive attacker that caps its update to evade norm-based filters
+  becomes too weak to matter (naive only 0.76→0.73), while a loud attack is detected & undone —
+  Multi-Krum lands at ≈0.78 either way; norm-based detection is blinded (recall 0.0) *and* harmful.
+- Final exported model (calibrated threshold baked in): **F1 = 0.906** on KDDTest+ at the 0.5 cutoff.
 
-See [`WRITEUP.md`](WRITEUP.md) for the full technical report and [`media/`](media/) for figures.
+See [`WRITEUP.md`](WRITEUP.md) for the full report and [`media/`](media/) for figures.
 
 ## What's here
 
@@ -25,7 +28,8 @@ model_scripted.pt                      # final defended + calibrated model (Torc
 submission.json                        # all reported metrics (for automated verification)
 WRITEUP.md                             # the report (< 1500 words)
 VIDEO_SCRIPT.md                        # 3-minute walkthrough script
-media/                                 # cover, strategy diagram, F1-over-rounds, scale sweep, confusion matrix
+media/                                 # cover, strategy diagram, F1-over-rounds, scale sweep,
+                                       #   attacker-dilemma, confusion matrix
 ```
 
 ## Reproduce
@@ -44,20 +48,21 @@ every before/after comparison over 3 seeds, regenerates every figure in `media/`
 ### Verify the primary number
 
 ```python
-import torch, pandas as pd
+import torch
 # ...load & preprocess KDDTest+ exactly as in the notebook (Section 1) -> X_test, y_test
 m = torch.jit.load("model_scripted.pt").eval()
 preds = (torch.sigmoid(m(X_test)) > 0.5).int()
-# F1(preds, y_test) == submission.json["self_reported_metrics"]["f1"]  (0.895)
+# F1(preds, y_test) == submission.json["self_reported_metrics"]["f1"]  (0.906)
 ```
 
 ## Method in one paragraph
 
 **Intermediate:** the non-IID pain comes from *label* skew, so we rebalance each bank's local
-loss (`pos_weight`) and add a FedProx proximal term to limit client drift — closing ~most of
-the non-IID gap. **Advanced:** Multi-Krum selects the *n−f* most mutually-consistent client
-updates by geometric distance and discards the outliers; because selection ignores magnitude,
-the attacker's ×30 scaling backfires, and the discarded index is a perfect traitor detector.
+loss (`pos_weight`) and add a FedProx proximal term — closing most of the non-IID gap.
+**Advanced:** Multi-Krum keeps the *n−f* most mutually-consistent client updates by geometric
+distance and discards the outliers; because selection ignores magnitude, an attacker's scaling
+backfires, and the discarded index is a perfect traitor detector. We stress-test it with an
+adaptive norm-mimicking attacker and show the attacker cannot win either way.
 
 ## License
 

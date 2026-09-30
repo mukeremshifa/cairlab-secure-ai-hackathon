@@ -4,16 +4,16 @@
   "model_file": "model_scripted.pt",
   "n_input_features": 41,
   "self_reported_metrics": {
-    "precision": 0.8667,
-    "recall": 0.9261,
-    "f1": 0.8954
+    "precision": 0.8409,
+    "recall": 0.9819,
+    "f1": 0.9059
   },
   "headline": {
     "advanced_primary": {
-      "scenario": "1 malicious bank (client 1), label-flip + update-scaling x30, non-IID split",
-      "naive_fedavg_under_attack_f1": 0.4608,
-      "multikrum_defense_f1": 0.7684,
-      "defense_delta_at_0.5": 0.3076,
+      "scenario": "largest bank (client 2, ~43% of data) compromised: label-flip + update-scaling x20, non-IID split",
+      "naive_fedavg_under_attack_f1": 0.2111,
+      "multikrum_defense_f1": 0.7798,
+      "defense_delta_at_0.5": 0.5687,
       "malicious_detection_precision": 1.0,
       "malicious_detection_recall": 1.0,
       "clean_reference_f1": 0.7629
@@ -24,10 +24,18 @@
       "balanced_fedprox_f1": 0.7675,
       "aggregation_delta": 0.039
     },
+    "adaptive_robustness": {
+      "attack": "label-flip capped to median honest-update norm (evades norm-based filters)",
+      "naive_fedavg_f1": 0.7334,
+      "norm_detection_f1": 0.5909,
+      "norm_detection_recall": 0.0,
+      "multikrum_f1": 0.785,
+      "multikrum_recall": 0.5
+    },
     "calibration": {
-      "threshold": 0.0006,
-      "final_model_f1_at_0.5_uncalibrated": 0.7614,
-      "final_model_f1_calibrated": 0.8954
+      "threshold": 0.0066,
+      "final_model_f1_at_0.5_uncalibrated": 0.7826,
+      "final_model_f1_calibrated": 0.9059
     },
     "n_seeds": 3
   }
